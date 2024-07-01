@@ -40,12 +40,12 @@ ota:
 improv_serial:
 
 wifi:
-  ssid: WIFI_2G
-  password: decky@10
+  ssid: XXXXXXX
+  password: XXXXXX
   # Set up a wifi access point
   ap:
-    ssid: "LCDkit"
-    password: "lcdkit123"
+    ssid: "XXXXX"
+    password: "XXXXX"
 
 # In combination with the `ap` this allows the user
 # to provision wifi credentials to the device via WiFi AP.
@@ -66,37 +66,13 @@ web_server:
 text_sensor:
     - platform: homeassistant
       id: varanda_201
-      entity_id: binary_sensor.flat_201_varanda_contact
+      entity_id: binary_sensor.xxxx1_contact
       internal: true
 
     - platform: homeassistant
       id: varanda_202
-      entity_id: binary_sensor.flat_202_varanda_contact
+      entity_id: binary_sensor.xxxx2_contact
       internal: true
-
-    - platform: homeassistant
-      id: varanda_203
-      entity_id: binary_sensor.flat_203_varanda_contact
-      internal: true
-
-    - platform: homeassistant
-      id: varanda_204
-      entity_id: binary_sensor.flat_204_varanda_contact
-      internal: true
-
-    - platform: homeassistant
-      id: varanda_205
-      entity_id: binary_sensor.flat_205_varanda_contact
-      internal: true
-
-    - platform: homeassistant
-      id: sensor_simples
-      entity_id: sensor.sensor_simples_temperature
-      internal: true
-      filters:
-        - substitute:
-          - "off -> fechado"
-          - "on -> aberto"
 
 binary_sensor:
   - platform: gpio
@@ -109,35 +85,9 @@ binary_sensor:
       then:
         - display.page.show_next: lcd_display
 
-sensor:
-  - platform: rotary_encoder
-    name: "Rotary Encoder"
-    pin_a:
-      number: GPIO10
-    pin_b:
-      number: GPIO6
-    resolution: 1
-    min_value: 0
-    max_value: 100
-    on_clockwise:
-      then:
-        # - logger.log: "Turned Clockwise"
-        - display.page.show_next: lcd_display
-    on_anticlockwise:
-      then:
-        - display.page.show_previous: lcd_display
-        # - logger.log: "Turned Anticlockwise"
-
 external_components:
   - source: github://smkent/esphome@main
     components: [ gc9a01 ]
-
-# switch:
-#   - platform: gpio
-#     pin:
-#       number: 8 # on-board LED GPIO8 does not work, so GPIO3 is used
-#       mode: output # o 3 está ligado no speaker
-#     id: led
 
 spi:
   clk_pin: GPIO1
@@ -156,45 +106,21 @@ display:
       - id: page1
         lambda: |-
           it.image(20, 20, id(logo_ondas));
-          it.printf(120, 35, id(font_16), id(color_black), TextAlign::CENTER, "V.201: %s", id(varanda_201).state.c_str());
-          it.printf(120, 50, id(font_16), id(color_black), TextAlign::CENTER, "V.202: %s", id(varanda_202).state.c_str());
-          it.printf(120, 65, id(font_16), id(color_black), TextAlign::CENTER, "V.203: %s", id(varanda_203).state.c_str());
-          it.printf(120, 80, id(font_16), id(color_black), TextAlign::CENTER, "V.204: %s", id(varanda_204).state.c_str());
-          it.printf(120, 95, id(font_16), id(color_black), TextAlign::CENTER, "V.205: %s", id(varanda_205).state.c_str());
-          it.printf(120, 110, id(font_20), id(color_purple), TextAlign::CENTER, "Temp: %s", id(sensor_simples).state.c_str());
+          it.printf(120, 35, id(font_16), id(color_black), TextAlign::CENTER, "Text for sensor 1: %s", id(xxxx1).state.c_str());
+          it.printf(120, 50, id(font_16), id(color_black), TextAlign::CENTER, "Text for sensor 2: %s", id(xxxx2).state.c_str());
           it.strftime(120, 210, id(font_16), id(color_black), TextAlign::CENTER, "%H:%M", id(esptime).now());
           it.strftime(120, 195, id(font_16), id(color_black), TextAlign::CENTER, "%c", id(esptime).now());
       - id: page2
         lambda: |-
           it.image(20, 20, id(logo_ondas));
-          it.printf(120, 35, id(font_20), id(color_black), TextAlign::CENTER, "V.201: %s", id(varanda_201).state.c_str());
+          it.printf(120, 35, id(font_20), id(color_black), TextAlign::CENTER, "Text for sensor 1: %s", id(xxxx1).state.c_str());
           it.strftime(120, 200, id(font_16), id(color_black), TextAlign::CENTER, "%X - %x", id(esptime).now());
       - id: page3
         lambda: |-
           it.image(20, 20, id(logo_ondas));
-          it.printf(120, 35, id(font_20), id(color_black), TextAlign::CENTER, "V.202: %s", id(varanda_202).state.c_str());
+          it.printf(120, 35, id(font_20), id(color_black), TextAlign::CENTER, "Text for sensor 2: %s", id(xxxx2).state.c_str());
           it.strftime(120, 200, id(font_16), id(color_black), TextAlign::CENTER, "%X - %x", id(esptime).now());
       - id: page4
-        lambda: |-
-          it.image(20, 20, id(logo_ondas));
-          it.printf(120, 35, id(font_20), id(color_black), TextAlign::CENTER, "V.203: %s", id(varanda_203).state.c_str());
-          it.strftime(120, 200, id(font_16), id(color_black), TextAlign::CENTER, "%X - %x", id(esptime).now());
-      - id: page5
-        lambda: |-
-          it.image(20, 20, id(logo_ondas));
-          it.printf(120, 35, id(font_20), id(color_black), TextAlign::CENTER, "V.204: %s", id(varanda_204).state.c_str());
-          it.strftime(120, 200, id(font_16), id(color_black), TextAlign::CENTER, "%X - %x", id(esptime).now());
-      - id: page6
-        lambda: |-
-          it.image(20, 20, id(logo_ondas));
-          it.printf(120, 35, id(font_20), id(color_black), TextAlign::CENTER, "V.205: %s", id(varanda_205).state.c_str());
-          it.strftime(120, 200, id(font_16), id(color_black), TextAlign::CENTER, "%X - %x", id(esptime).now());
-      - id: page7
-        lambda: |-
-          it.image(20, 20, id(logo_ondas));
-          it.printf(120, 35, id(font_20), id(color_purple), TextAlign::CENTER, "Temp: %s", id(sensor_simples).state.c_str());
-          it.strftime(120, 200, id(font_16), id(color_black), TextAlign::CENTER, "%X - %x", id(esptime).now());
-      - id: page8
         lambda: |-
           it.image(20, 20, id(logo_ondas));
           it.strftime(120, 200, id(font_16), id(color_black), TextAlign::CENTER, "%X - %x", id(esptime).now());
@@ -204,10 +130,6 @@ interval:
     then:
       - display.page.show_next: lcd_display
       - component.update: lcd_display
-  # - interval: 2s
-  #   then:
-  #     - switch.toggle: led
-  #     - logger.log: "LED toggling"
     
 font:
   - file: 'fonts/OpenSans-Medium.ttf'
