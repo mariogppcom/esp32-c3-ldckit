@@ -1,6 +1,11 @@
 # esp32-c3-ldckit
 Basic configuration for esp32-c3-ldckit espressig
 
+*WARNING*: the code below results in a "bug/problem" whose log is below. Despite this, the code is functional.
+        
+        [13:58:58][W][component:237]: Component display took a long time for an operation (290 ms).
+        [13:58:58][W][component:238]: Components should block for at most 30 ms.
+
 The installation and development process was not documented. When possible, I will document the procedure.
 
     substitutions:
